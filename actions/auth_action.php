@@ -1,10 +1,6 @@
 <?php
 // actions/auth_action.php
 
-// Temporary: enable detailed error reporting to diagnose 500 errors.
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 session_start();
 require_once '../config/database.php';
 require_once '../includes/functions.php';
