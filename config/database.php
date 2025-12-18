@@ -13,11 +13,18 @@ class Database {
     public $conn;
 
     public function __construct() {
-        // Use .env values if present, otherwise fall back to existing local defaults
+        // Use .env values if present, otherwise fall back to existing local defaults.
+        // Support both DB_USERNAME/DB_PASSWORD and DB_USER/DB_PASS naming.
         $this->host = getenv('DB_HOST') ?: 'localhost';
         $this->db_name = getenv('DB_NAME') ?: 'mama_mboga_db';
-        $this->username = getenv('DB_USERNAME') ?: 'wiseman';
-        $this->password = getenv('DB_PASSWORD') ?: 'nopassword';
+
+        // Username: try DB_USERNAME, then DB_USER, then fallback
+        $this->username = getenv('DB_USERNAME')
+            ?: (getenv('DB_USER') ?: 'wiseman');
+
+        // Password: try DB_PASSWORD, then DB_PASS, then fallback
+        $this->password = getenv('DB_PASSWORD')
+            ?: (getenv('DB_PASS') ?: 'nopassword');
     }
 
     public function getConnection() {
