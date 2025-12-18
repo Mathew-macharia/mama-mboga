@@ -16,7 +16,7 @@ class Database {
         // Use .env values if present, otherwise fall back to existing local defaults
         $this->host = getenv('DB_HOST') ?: 'localhost';
         $this->db_name = getenv('DB_NAME') ?: 'mama_mboga_db';
-        $this->username = getenv('DB_USERNAME') ?: 'wisemann';
+        $this->username = getenv('DB_USERNAME') ?: 'wiseman';
         $this->password = getenv('DB_PASSWORD') ?: 'nopassword';
     }
 
