@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
     `phone` VARCHAR(20) NOT NULL,
     `current_balance` DECIMAL(10, 2) DEFAULT 0.00,
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
+    `email` VARCHAR(100) NULL,
     FOREIGN KEY (`vendor_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
