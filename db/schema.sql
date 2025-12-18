@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     `email` VARCHAR(100) NOT NULL UNIQUE,
     `password_hash` VARCHAR(255) NOT NULL,
     `role` ENUM('admin', 'vendor') DEFAULT 'vendor',
+    `is_active` TINYINT(1) NOT NULL DEFAULT 1,
     `created_at` DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 

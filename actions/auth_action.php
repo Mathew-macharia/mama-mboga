@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
         // Insert User
-        $stmt = $conn->prepare("INSERT INTO users (username, email, password_hash, role) VALUES (?, ?, ?, 'vendor')");
+        $stmt = $conn->prepare("INSERT INTO users (username, email, password_hash, role, is_active) VALUES (?, ?, ?, 'vendor', 1)");
         
         if ($stmt->execute([$username, $email, $password_hash])) {
             redirect("../auth.php?mode=login&success=Registration successful! Please login.");
@@ -61,11 +61,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             redirect("../auth.php?mode=login&error=All fields are required");
         }
 
-        $stmt = $conn->prepare("SELECT user_id, username, password_hash, role FROM users WHERE email = ? OR username = ?");
+        $stmt = $conn->prepare("SELECT user_id, username, password_hash, role, is_active FROM users WHERE email = ? OR username = ?");
         $stmt->execute([$identifier, $identifier]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password_hash'])) {
+            // Check if account is active
+            if (isset($user['is_active']) && (int)$user['is_active'] === 0) {
+                redirect("../auth.php?mode=login&error=Your account has been deactivated. Please contact the administrator.");
+            }
+
             // Success
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['username'] = $user['username'];
